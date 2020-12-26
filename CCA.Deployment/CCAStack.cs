@@ -75,7 +75,7 @@ namespace CCA.Deployment
                 return s;
             });
 
-            HealthServiceEndpoint = Output.Format($"https://{healthService.DefaultHostname}");
+            HealthServiceEndpoint = Output.Format($"https://{healthService.DefaultHostname}/api/health-check");
         }
 
         [Output]
