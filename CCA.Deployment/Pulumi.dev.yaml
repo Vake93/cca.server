@@ -1,4 +1,8 @@
 config:
+  cca-deployment:GOOGLE_AUTH_CLIENT_SECRET:
+    secure: AAABACgy7IcoQgwi48uRUAV3LpMlq93WXZSNQE5yCBh+CEXlA2qgwYQpByu2SMS7sKwqkwhx27s=
+  cca-deployment:GOOGLE_AUTH_CLIENTID: 1085045104541-ilf6m5ra9ap8becfe69ovau4le5dr79k.apps.googleusercontent.com
+  cca-deployment:GOOGLE_AUTH_URI: http://localhost:3000
   cca-deployment:JWT_AUDIENCE: CCA.Client
   cca-deployment:JWT_EXPIRES: "10"
   cca-deployment:JWT_ISSUER: CCA.Server

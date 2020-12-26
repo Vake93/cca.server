@@ -28,7 +28,18 @@ namespace CCA.Deployment
                 config,
                 resourceGroup,
                 storageAccount,
-                "../CCA.User.Service/bin/Release/netcoreapp3.1/publish");
+                "../CCA.User.Service/bin/Release/netcoreapp3.1/publish",
+                additionalSettings: new Dictionary<string, Output<string>>
+                {
+                    { "MicrosoftAuthClientId", Output.Create(config.Require("MICROSOFT_AUTH_CLIENTID"))},
+                    { "MicrosoftAuthTenantId", Output.Create(config.Require("MICROSOFT_AUTH_TENANTID")) },
+                    { "MicrosoftAuthClientSecret", config.RequireSecret("MICROSOFT_AUTH_CLIENT_SECRET") },
+                    { "MicrosoftAuthUri", Output.Create(config.Require("MICROSOFT_AUTH_URI")) },
+
+                    { "GoogleAuthClientId", Output.Create(config.Require("GOOGLE_AUTH_CLIENTID")) },
+                    { "GoogleAuthClientSecret", config.RequireSecret("GOOGLE_AUTH_CLIENT_SECRET") },
+                    { "GoogleAuthUri", Output.Create(config.Require("GOOGLE_AUTH_URI")) }
+                });
 
             UserServiceEndpoint = Output.Format($"https://{userService.DefaultHostname}");
 
@@ -65,7 +76,7 @@ namespace CCA.Deployment
                 resourceGroup,
                 storageAccount,
                 "../CCA.Health.Service/bin/Release/netcoreapp3.1/publish",
-                optionalSettings: new Dictionary<string, Output<string>>
+                additionalSettings: new Dictionary<string, Output<string>>
                 {
                     {"UserServiceUri"   , Output.Format($"https://{userService.DefaultHostname}/api/users/health-check") },
                     {"EventServiceUri"  , Output.Format($"https://{eventService.DefaultHostname}/api/events/health-check") },
@@ -97,7 +108,7 @@ namespace CCA.Deployment
             ResourceGroup resourceGroup,
             Account storageAccount,
             string codePath,
-            Dictionary<string, Output<string>>? optionalSettings = null)
+            Dictionary<string, Output<string>>? additionalSettings = null)
         {
             var userServicePlan = new Plan(name, new PlanArgs
             {
@@ -137,19 +148,14 @@ namespace CCA.Deployment
                 { "JwtAudience", config.Require("JWT_AUDIENCE")},
                 { "JwtExpires", config.Require("JWT_EXPIRES") },
 
-                { "MicrosoftAuthClientId", config.Require("MICROSOFT_AUTH_CLIENTID")},
-                { "MicrosoftAuthTenantId", config.Require("MICROSOFT_AUTH_TENANTID") },
-                { "MicrosoftAuthClientSecret", config.RequireSecret("MICROSOFT_AUTH_CLIENT_SECRET") },
-                { "MicrosoftAuthUri", config.Require("MICROSOFT_AUTH_URI") },
-
                 { "TwilioAccountSid", config.Require("TWILIO_ACCOUNT_SID") },
                 { "TwilioApiSid", config.Require("TWILIO_API_SID")},
                 { "TwilioApiSecret", config.RequireSecret("TWILIO_API_SECRET") },
             };
 
-            if (optionalSettings is { })
+            if (additionalSettings is { })
             {
-                foreach (var setting in optionalSettings)
+                foreach (var setting in additionalSettings)
                 {
                     appSettings.Add(setting.Key, setting.Value);
                 }
