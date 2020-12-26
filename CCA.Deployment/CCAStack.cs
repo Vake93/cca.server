@@ -3,6 +3,7 @@ using Pulumi.Azure.AppService;
 using Pulumi.Azure.AppService.Inputs;
 using Pulumi.Azure.Core;
 using Pulumi.Azure.Storage;
+using System.Collections.Generic;
 
 namespace CCA.Deployment
 {
@@ -63,17 +64,14 @@ namespace CCA.Deployment
                 config,
                 resourceGroup,
                 storageAccount,
-                "../CCA.Health.Service/bin/Release/netcoreapp3.1/publish");
-
-            healthService.AppSettings.Apply(s =>
-            {
-                s.Add("UserServiceUri", $"https://{userService.DefaultHostname}/api/users/health-check");
-                s.Add("EventServiceUri", $"https://{eventService.DefaultHostname}/api/events/health-check");
-                s.Add("MeetingServiceUri", $"https://{meetingService.DefaultHostname}/api/meeting/health-check");
-                s.Add("DailInServiceUri", $"https://{dialInService.DefaultHostname}/api/dialin/health-check");
-
-                return s;
-            });
+                "../CCA.Health.Service/bin/Release/netcoreapp3.1/publish",
+                optionalSettings: new Dictionary<string, Output<string>>
+                {
+                    {"UserServiceUri"   , Output.Format($"https://{userService.DefaultHostname}/api/users/health-check") },
+                    {"EventServiceUri"  , Output.Format($"https://{eventService.DefaultHostname}/api/events/health-check") },
+                    {"MeetingServiceUri", Output.Format($"https://{meetingService.DefaultHostname}/api/meeting/health-check") },
+                    {"DailInServiceUri" , Output.Format($"https://{dialInService.DefaultHostname}/api/dialin/health-check") }
+                });
 
             HealthServiceEndpoint = Output.Format($"https://{healthService.DefaultHostname}/api/health-check");
         }
@@ -98,7 +96,8 @@ namespace CCA.Deployment
             Config config,
             ResourceGroup resourceGroup,
             Account storageAccount,
-            string codePath)
+            string codePath,
+            Dictionary<string, Output<string>>? optionalSettings = null)
         {
             var userServicePlan = new Plan(name, new PlanArgs
             {
@@ -127,6 +126,35 @@ namespace CCA.Deployment
 
             var codeBlobUrl = SharedAccessSignature.SignedBlobReadUrl(blob, storageAccount);
 
+            var appSettings = new InputMap<string>
+            {
+                { "FUNCTIONS_EXTENSION_VERSION", "~3" },
+                { "FUNCTIONS_WORKER_RUNTIME", "dotnet" },
+                { "WEBSITE_RUN_FROM_PACKAGE", codeBlobUrl},
+
+                { "JwtSecretKey", config.RequireSecret("JWT_SECRET_KEY") },
+                { "JwtIssuer", config.Require("JWT_ISSUER") },
+                { "JwtAudience", config.Require("JWT_AUDIENCE")},
+                { "JwtExpires", config.Require("JWT_EXPIRES") },
+
+                { "MicrosoftAuthClientId", config.Require("MICROSOFT_AUTH_CLIENTID")},
+                { "MicrosoftAuthTenantId", config.Require("MICROSOFT_AUTH_TENANTID") },
+                { "MicrosoftAuthClientSecret", config.RequireSecret("MICROSOFT_AUTH_CLIENT_SECRET") },
+                { "MicrosoftAuthUri", config.Require("MICROSOFT_AUTH_URI") },
+
+                { "TwilioAccountSid", config.Require("TWILIO_ACCOUNT_SID") },
+                { "TwilioApiSid", config.Require("TWILIO_API_SID")},
+                { "TwilioApiSecret", config.RequireSecret("TWILIO_API_SECRET") },
+            };
+
+            if (optionalSettings is { })
+            {
+                foreach (var setting in optionalSettings)
+                {
+                    appSettings.Add(setting.Key, setting.Value);
+                }
+            }
+
             return new FunctionApp(name, new FunctionAppArgs
             {
                 ResourceGroupName = resourceGroup.Name,
@@ -143,26 +171,7 @@ namespace CCA.Deployment
                         Value = storageAccount.PrimaryConnectionString
                     }
                 },
-                AppSettings = new InputMap<string>
-                {
-                    { "FUNCTIONS_EXTENSION_VERSION", "~3" },
-                    { "FUNCTIONS_WORKER_RUNTIME", "dotnet" },
-                    { "WEBSITE_RUN_FROM_PACKAGE", codeBlobUrl},
-
-                    { "JwtSecretKey", config.RequireSecret("JWT_SECRET_KEY") },
-                    { "JwtIssuer", config.Require("JWT_ISSUER") },
-                    { "JwtAudience", config.Require("JWT_AUDIENCE")},
-                    { "JwtExpires", config.Require("JWT_EXPIRES") },
-
-                    { "MicrosoftAuthClientId", config.Require("MICROSOFT_AUTH_CLIENTID")},
-                    { "MicrosoftAuthTenantId", config.Require("MICROSOFT_AUTH_TENANTID") },
-                    { "MicrosoftAuthClientSecret", config.RequireSecret("MICROSOFT_AUTH_CLIENT_SECRET") },
-                    { "MicrosoftAuthUri", config.Require("MICROSOFT_AUTH_URI") },
-
-                    { "TwilioAccountSid", config.Require("TWILIO_ACCOUNT_SID") },
-                    { "TwilioApiSid", config.Require("TWILIO_API_SID")},
-                    { "TwilioApiSecret", config.RequireSecret("TWILIO_API_SECRET") },
-                }
+                AppSettings = appSettings
             });
         }
     }
