@@ -2,9 +2,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CCA.Application\CCA.Application.csproj" />
+    <ProjectReference Include="..\CCA.Models\CCA.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

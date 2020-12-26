@@ -65,6 +65,16 @@ namespace CCA.Deployment
                 storageAccount,
                 "../CCA.Health.Service/bin/Release/netcoreapp3.1/publish");
 
+            healthService.AppSettings.Apply(s =>
+            {
+                s.Add("UserServiceUri", $"https://{userService.DefaultHostname}/api/users/health-check");
+                s.Add("EventServiceUri", $"https://{eventService.DefaultHostname}/api/events/health-check");
+                s.Add("MeetingServiceUri", $"https://{meetingService.DefaultHostname}/api/meeting/health-check");
+                s.Add("DailInServiceUri", $"https://{dialInService.DefaultHostname}/api/dialin/health-check");
+
+                return s;
+            });
+
             HealthServiceEndpoint = Output.Format($"https://{healthService.DefaultHostname}");
         }
 

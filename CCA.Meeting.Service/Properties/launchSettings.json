@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "CCA.Twilio.Service": {
+    "CCA.Meeting.Service": {
       "commandName": "Project",
       "commandLineArgs": "host start --pause-on-error --port 7803"
     }
