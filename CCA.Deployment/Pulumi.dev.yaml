@@ -1,0 +1,15 @@
+config:
+  cca-deployment:JWT_AUDIENCE: CCA.Client
+  cca-deployment:JWT_EXPIRES: "10"
+  cca-deployment:JWT_ISSUER: CCA.Server
+  cca-deployment:JWT_SECRET_KEY:
+    secure: AAABABFCqBQisfCxYL0dt2P/yvkUXE4RtBwu7b01VxZmUuqZceLsSbdOZn1X0l96WUam4g+qA4Yt+uq5/zHxqLXDyjsfZzVy7g==
+  cca-deployment:MICROSOFT_AUTH_CLIENT_SECRET:
+    secure: AAABAKFn4wVAvfP3Iq9mh8ojchuFCafuTUFyrIndALFdEQ6Ni69bacYYUDNpO85YHlNag/L0js0gyDo2jI2R+KU+
+  cca-deployment:MICROSOFT_AUTH_CLIENTID: 5540cd06-ae4c-4d8f-bb07-e76d5646ca9a
+  cca-deployment:MICROSOFT_AUTH_TENANTID: df73e21d-a835-4dfc-a4b3-af6cb26024d5
+  cca-deployment:MICROSOFT_AUTH_URI: http://localhost:3000
+  cca-deployment:TWILIO_ACCOUNT_SID: AC622f9631770d31309b1db6d2e91f2501
+  cca-deployment:TWILIO_API_SECRET:
+    secure: AAABAAl5KQBLjryNTc18W7aECr+71D5LIOjiR+D1hPBYywgtgSxaQGAi08zcFN40jtj0aQ9ivi4uLIxj598zFQ==
+  cca-deployment:TWILIO_API_SID: SK04b29d5bbb87271899f27dc39b4c6b22

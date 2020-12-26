@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CCA.Health.Service": {
+      "commandName": "Project",
+      "commandLineArgs": "host start --pause-on-error --port 7805"
+    }
+  }
+}

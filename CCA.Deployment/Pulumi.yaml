@@ -1,0 +1,3 @@
+name: cca-deployment
+runtime: dotnet
+description: CCA Deployment Project
