@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace CCA.Deployment
 {
-    public class CCAStack : Stack
+    public class CCAServerStack : Stack
     {
-        public CCAStack()
+        public CCAServerStack()
         {
             var config = new Config();
 
-            var resourceGroup = new ResourceGroup("cca", new ResourceGroupArgs { Location = "SouthIndia" });
+            var resourceGroup = new ResourceGroup("cca-server", new ResourceGroupArgs { Location = "SouthIndia" });
 
             var storageAccount = new Account("ccastorage", new AccountArgs
             {

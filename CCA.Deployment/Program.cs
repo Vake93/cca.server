@@ -16,7 +16,7 @@ public class Program
 
         Console.WriteLine("Completed build steps");
 
-        return Deployment.RunAsync<CCAStack>();
+        return Deployment.RunAsync<CCAServerStack>();
     }
 
     private static void BuildProject(string directory)
