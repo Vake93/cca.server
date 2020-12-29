@@ -168,6 +168,7 @@ namespace CCA.Deployment
                 StorageAccountName = storageAccount.Name,
                 StorageAccountAccessKey = storageAccount.PrimaryAccessKey,
                 Version = "~3",
+                AppSettings = appSettings,
                 ConnectionStrings = new InputList<FunctionAppConnectionStringArgs>
                 {
                     new FunctionAppConnectionStringArgs
@@ -177,7 +178,17 @@ namespace CCA.Deployment
                         Value = storageAccount.PrimaryConnectionString
                     }
                 },
-                AppSettings = appSettings
+                SiteConfig = new FunctionAppSiteConfigArgs
+                {
+                    Cors = new FunctionAppSiteConfigCorsArgs
+                    {
+                        AllowedOrigins = new InputList<string>
+                        {
+                            "http://localhost:3000",
+                            "https://ccasiteb606c25.z30.web.core.windows.net"
+                        }
+                    }
+                }
             });
         }
     }
