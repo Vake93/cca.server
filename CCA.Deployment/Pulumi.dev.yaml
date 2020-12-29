@@ -2,7 +2,7 @@ config:
   cca-deployment:GOOGLE_AUTH_CLIENT_SECRET:
     secure: AAABACgy7IcoQgwi48uRUAV3LpMlq93WXZSNQE5yCBh+CEXlA2qgwYQpByu2SMS7sKwqkwhx27s=
   cca-deployment:GOOGLE_AUTH_CLIENTID: 1085045104541-ilf6m5ra9ap8becfe69ovau4le5dr79k.apps.googleusercontent.com
-  cca-deployment:GOOGLE_AUTH_URI: http://localhost:3000
+  cca-deployment:GOOGLE_AUTH_URI: https://cca.azureedge.net/oauth
   cca-deployment:JWT_AUDIENCE: CCA.Client
   cca-deployment:JWT_EXPIRES: "10"
   cca-deployment:JWT_ISSUER: CCA.Server
@@ -12,7 +12,7 @@ config:
     secure: AAABAKFn4wVAvfP3Iq9mh8ojchuFCafuTUFyrIndALFdEQ6Ni69bacYYUDNpO85YHlNag/L0js0gyDo2jI2R+KU+
   cca-deployment:MICROSOFT_AUTH_CLIENTID: 5540cd06-ae4c-4d8f-bb07-e76d5646ca9a
   cca-deployment:MICROSOFT_AUTH_TENANTID: df73e21d-a835-4dfc-a4b3-af6cb26024d5
-  cca-deployment:MICROSOFT_AUTH_URI: http://localhost:3000
+  cca-deployment:MICROSOFT_AUTH_URI: https://cca.azureedge.net/oauth
   cca-deployment:TWILIO_ACCOUNT_SID: AC622f9631770d31309b1db6d2e91f2501
   cca-deployment:TWILIO_API_SECRET:
     secure: AAABAAl5KQBLjryNTc18W7aECr+71D5LIOjiR+D1hPBYywgtgSxaQGAi08zcFN40jtj0aQ9ivi4uLIxj598zFQ==
