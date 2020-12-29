@@ -185,7 +185,7 @@ namespace CCA.Deployment
                         AllowedOrigins = new InputList<string>
                         {
                             "http://localhost:3000",
-                            "https://ccasiteb606c25.z30.web.core.windows.net"
+                            "https://cca.azureedge.net"
                         }
                     }
                 }
