@@ -60,7 +60,7 @@ namespace CCA.Application.Services.Authentication.Microsoft
             var content = await response.Content.ReadAsStringAsync();
             var azureActiveDirectoryUser = JsonConvert.DeserializeObject<MicrosoftUserResponse>(content);
 
-            if (azureActiveDirectoryUser?.Email is null)
+            if (string.IsNullOrEmpty(azureActiveDirectoryUser?.Email))
             {
                 return null;
             }

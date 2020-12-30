@@ -14,7 +14,7 @@ namespace CCA.Application.Services.Authentication.Google
         private const string _loginStatePrefix = "GCP-";
         private const string _loginUrl = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=openid%20email";
         private const string _token = "https://oauth2.googleapis.com/token";
-        private const string _userInfo = "https://www.googleapis.com/oauth2/v3/tokeninfo";
+        private const string _userInfo = "https://oauth2.googleapis.com/tokeninfo";
 
         private readonly GoogleAuthConfiguration _googleAuthConfiguration;
         private readonly HttpClient _httpClient;
