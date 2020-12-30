@@ -42,6 +42,11 @@ namespace CCA.Application.Services.Authentication.Microsoft
                $"&state={state}";
         }
 
+        public bool ValidState(string state)
+        {
+            return state.StartsWith(_loginStatePrefix);
+        }
+
         public async Task<IOpenIDUserProfile?> GetProfileAsync(string code)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, _userInfo);

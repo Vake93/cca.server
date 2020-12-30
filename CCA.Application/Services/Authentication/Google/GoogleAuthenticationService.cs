@@ -40,6 +40,11 @@ namespace CCA.Application.Services.Authentication.Google
                $"&state={state}";
         }
 
+        public bool ValidState(string state)
+        {
+            return state.StartsWith(_loginStatePrefix);
+        }
+
         public async Task<IOpenIDUserProfile?> GetProfileAsync(string code)
         {
             var token = await GetGoogleTokenAsync(code);

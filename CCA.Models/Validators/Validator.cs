@@ -104,22 +104,10 @@ namespace CCA.Models.Validators
             var hasErrors = false;
             var errors = new StringBuilder();
 
-            if (string.IsNullOrEmpty(loginRequest?.Provider))
+            if (string.IsNullOrEmpty(loginRequest?.State))
             {
                 hasErrors = true;
-                errors.AppendLine($"{nameof(loginRequest.Provider)} is required.");
-            }
-            else
-            {
-                if (Enum.TryParse(typeof(AuthenticationProviderType), loginRequest.Provider, out var providerType))
-                {
-                    loginRequest.ProviderType = (AuthenticationProviderType)providerType;
-                }
-                else
-                {
-                    hasErrors = true;
-                    errors.AppendLine($"{nameof(loginRequest.Provider)} is invalid.");
-                }
+                errors.AppendLine($"{nameof(loginRequest.State)} is required.");
             }
 
             if (string.IsNullOrEmpty(loginRequest?.Token))

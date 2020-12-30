@@ -38,9 +38,12 @@ namespace CCA.Application.Handlers.Users
             {
                 Validator.ValidateRequest(_loginRequest);
 
-                var openIDProvider = _loginRequest.ProviderType == AuthenticationProviderType.Microsoft ? (IOpenIDProvider)
-                    MicrosoftAuthenticationService.Instance :
-                    GoogleAuthenticationService.Instance;
+                var openIDProvider = ResolveProvider();
+
+                if (openIDProvider is null)
+                {
+                    return new BadRequestObjectResult(new { errors = "Invalid state" });
+                }
 
                 var openIDUserProfile = await openIDProvider.GetProfileAsync(_loginRequest.Token);
 
@@ -89,6 +92,21 @@ namespace CCA.Application.Handlers.Users
             {
                 return new BadRequestObjectResult(new { errors = e.Message });
             }
+        }
+
+        private IOpenIDProvider? ResolveProvider()
+        {
+            if (MicrosoftAuthenticationService.Instance.ValidState(_loginRequest.State))
+            {
+                return MicrosoftAuthenticationService.Instance;
+            }
+
+            if (GoogleAuthenticationService.Instance.ValidState(_loginRequest.State))
+            {
+                return GoogleAuthenticationService.Instance;
+            }
+
+            return null;
         }
     }
 }
