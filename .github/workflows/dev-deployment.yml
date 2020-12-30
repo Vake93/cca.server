@@ -8,7 +8,7 @@ on:
 
 jobs:
   deployment:
-    name: Deployment Dev
+    name: Server Deployment
     runs-on: ubuntu-latest
 
     steps:
