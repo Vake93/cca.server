@@ -204,10 +204,10 @@ namespace CCA.Models.Validators
             var hasErrors = false;
             var errors = new StringBuilder();
 
-            if (string.IsNullOrEmpty(joinMeetingRequest?.RecaptchaToken))
+            if (string.IsNullOrEmpty(joinMeetingRequest?.EventId))
             {
                 hasErrors = true;
-                errors.AppendLine($"{nameof(joinMeetingRequest.RecaptchaToken)} is required.");
+                errors.AppendLine($"{nameof(joinMeetingRequest.EventId)} is required.");
             }
 
             if (hasErrors)

@@ -48,7 +48,8 @@ namespace CCA.Application.Handlers.Events
                 events = filterEvents
                     .Skip(_listEventsRequest.Skip)
                     .Take(_listEventsRequest.Limit)
-                    .ToArray(); 
+                    .OrderBy(e => e.StartTime)
+                    .ToArray();
             }
             else
             {
@@ -59,6 +60,7 @@ namespace CCA.Application.Handlers.Events
                 events = filterEvents
                     .Skip(_listEventsRequest.Skip)
                     .Take(_listEventsRequest.Limit)
+                    .OrderBy(e => e.StartTime)
                     .ToArray();
             }
 

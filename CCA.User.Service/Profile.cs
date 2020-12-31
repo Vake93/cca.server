@@ -23,7 +23,7 @@ namespace CCA.User.Service
                 return await new ProfileHandler(loginUserEmail, usersTable, logger).ProcessAsync();
             }
 
-            logger.LogWarning("Unauthorized Request to join-meeting");
+            logger.LogWarning("Unauthorized Request to profile");
             return new UnauthorizedResult();
         }
     }

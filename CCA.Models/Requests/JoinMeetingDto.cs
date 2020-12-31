@@ -6,7 +6,5 @@ namespace CCA.Models.Requests
     {
         [JsonIgnore]
         public string EventId { get; set; } = string.Empty;
-
-        public string RecaptchaToken { get; set; } = string.Empty;
     }
 }
