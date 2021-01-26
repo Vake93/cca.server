@@ -12,6 +12,11 @@ namespace CCA.User.Service
         public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, HttpMethod.GET, Route = "hello-world")] HttpRequest request)
         {
+            if (request.Query.TryGetValue("name", out var name))
+            {
+                return new OkObjectResult($"Hello, {name}");
+            }
+
             return new OkObjectResult("Hello, World");
         }
     }
